@@ -4,7 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     phone = models.CharField(max_length=20, null=True)
-    player_name = models.CharField(max_length=50)
+    player_name = models.CharField(max_length=50, null=True)
     balance = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):

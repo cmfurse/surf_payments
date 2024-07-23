@@ -28,6 +28,11 @@ class PaymentRequestList(generics.ListCreateAPIView):
     serializer_class = PaymentRequestSerializer
 
 
+class PendingPaymentRequestList(generics.ListAPIView):
+    queryset = PaymentRequest.objects.filter(paid=False)
+    serializer_class = PaymentRequestSerializer
+
+
 class PaymentRequestDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PaymentRequest.objects.all()
     serializer_class = PaymentRequestSerializer
