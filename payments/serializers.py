@@ -5,18 +5,16 @@ from .services import generate_single_fee_requests, generate_recurring_fee_reque
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
-        write_only=True,
-        required=True
-    )
+    password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
         fields = ['id', 'email', 'password', 'first_name', 'last_name', 'phone', 'is_active', 'player_name', 'balance']
 
     def validate(self, data):
-        if not data['is_superuser'] and data['player_name'] is None:
-            raise serializers.ValidationError("Player name must be provided for non-superuser")
+        print('validate', data)
+        # if not data['is_superuser'] and data['player_name'] is None:
+        #     raise serializers.ValidationError("Player name must be provided for non-superuser")
         return data
 
     def create(self, validated_data):
@@ -24,7 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data['username'] = validated_data.get('email')
         return super(UserSerializer, self).create(validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data, *args, **kwargs):
+
         validated_data['password'] = make_password(validated_data.get('password'))
         validated_data['username'] = validated_data.get('email')
         return super(UserSerializer, self).update(instance, validated_data)

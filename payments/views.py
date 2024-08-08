@@ -4,7 +4,7 @@ from .serializers import UserSerializer, FeeSerializer, PaymentRequestSerializer
 
 
 class UserList(generics.ListCreateAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('last_name', 'first_name')
     serializer_class = UserSerializer
 
 
